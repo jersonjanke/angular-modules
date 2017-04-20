@@ -16,12 +16,20 @@
     "type": "git",
     "url": "git://github.com/KarlDoyle/angular-es6-webpack-starter.git"
   },
+  "scripts": {
+    "pretest": "webdriver-manager update",
+    "test": "protractor ./test/protractor.conf.js",
+    "test-server": "http-server dist -p 9000 -a localhost --host 0.0.0.0",
+    "start": "webpack-dev-server --config webpack.config.dev.babel.js --port 9000 --inline --hot --host 0.0.0.0",
+    "build": "webpack --config webpack.config.prod.babel.js --progress"
+  },
   "dependencies": {
     "angular": "^1.5.3",
     "angular-animate": "^1.6.4",
     "angular-moment-picker": "^0.9.10",
     "angular-toastr": "^2.1.1",
-    "angular-ui-router": "1.0.0-beta.1"
+    "angular-ui-router": "1.0.0-beta.1",
+    "jquery": "^1.12.4"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.1",
@@ -54,12 +62,5 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-stream": "^3.1.0",
     "yargs": "^5.0.0"
-  },
-  "scripts": {
-    "pretest": "webdriver-manager update",
-    "test": "protractor ./test/protractor.conf.js",
-    "test-server": "http-server dist -p 9000 -a localhost",
-    "start": "webpack-dev-server --config webpack.config.dev.babel.js --port 9000 --inline --hot",
-    "build": "webpack --config webpack.config.prod.babel.js --progress"
   }
 }

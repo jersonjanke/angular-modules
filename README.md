@@ -47,3 +47,21 @@ npm start
 
 go to [http://0.0.0.0:9000](http://0.0.0.0:9000) or [http://localhost:9000](http://localhost:9000) in your browser
 
+sudo: required
+dist: trusty
+
+language: node_js
+
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
+install:
+  - npm install
+
+before_script:
+  - npm run build
+  - npm run test-server &
+
+script:
+  - npm test

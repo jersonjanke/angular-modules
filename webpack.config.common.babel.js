@@ -54,7 +54,8 @@ module.exports = new WebpackConfig().merge({
       {from: 'manifest.json', to: 'manifest.json'},
       {from: 'assets/css', to: 'assets/css'},
       {from: 'assets/js', to: 'assets/js'},
-      {from: 'assets/fonts', to: 'assets/fonts'}
+      {from: 'assets/fonts', to: 'assets/fonts'},
+      {from: 'assets/img', to: 'assets/img'}
     ])
   ]
 })
