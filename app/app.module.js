@@ -1,9 +1,9 @@
 import angular from 'angular';
 import sass from './assets/main.scss'
 import commons from './commons/module';
-import modules from './modules/config/module';
+import site from './modules/site/module';
 
 angular.module('app', [  
-  commons.name,  
-  modules.name
+  commons.name,    
+  site.name
 ]);
