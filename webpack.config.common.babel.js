@@ -11,14 +11,7 @@ module.exports = new WebpackConfig().merge({
     filename: 'bundle.js'
   },
   context:  path.join(__dirname,'/app'),
-  module: {
-    preLoaders: [
-      // {
-      //   test: /\.js$/,
-      //   loader: 'eslint-loader',
-      //   exclude: /(node_modules)/
-      // }
-    ],
+  module: {    
     loaders: [{
         test: /\.scss$/,
         loader: 'style!css?sourceMap!sass?sourceMap&sourceComments'
@@ -49,13 +42,9 @@ module.exports = new WebpackConfig().merge({
       inject: 'body'
     }),
     new CopyWebpackPlugin([
-      {from: 'offline.html', to: 'offline.html'},
-      {from: 'service-worker.js', to: 'service-worker.js'},
-      {from: 'manifest.json', to: 'manifest.json'},
       {from: 'assets/css', to: 'assets/css'},
       {from: 'assets/js', to: 'assets/js'},
-      {from: 'assets/fonts', to: 'assets/fonts'},
-      {from: 'assets/img', to: 'assets/img'}
+      {from: 'assets/fonts', to: 'assets/fonts'}      
     ])
   ]
 })
