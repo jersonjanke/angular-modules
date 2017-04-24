@@ -1,9 +1,8 @@
 import headerHtml from './header.html';
-import headerCtrl from './header.controller';
 
 let headerComponent = {
     template: headerHtml,    
-    controller: headerCtrl,
+    controller: () => {},
     controllerAs: 'vm',
     bindings: {
     name: '='
