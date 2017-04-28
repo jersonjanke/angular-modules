@@ -31,7 +31,7 @@ function routes($stateProvider) {
       controllerAs: 'vm'
     })
 
-    .state('projects',  {
+    .state('projects', {
       url: '/projects',
       template: projectsHtml,
       controller: projectsController,

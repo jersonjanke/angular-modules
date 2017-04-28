@@ -1,0 +1,150 @@
+
+            },
+            /**
+            * {{options.name}} {{options.entity}}
+            */
+            {
+                state: "{{options.nameLower}}.{{options.entityLower}}",
+                    config: {
+                        {{#options.resolve}}
+                        resolve: {
+                            {{#options.lazy}}
+                            {{options.entity}}ItemsData: ['loadDeps','$state','{{options.entity}}Svc', function(loadDeps,$state,{{options.entity}}Svc) {
+                                return {{options.entity}}Svc.getAll()
+                                    .then(function(response){
+                                        return response;
+                                    })
+                                    .catch(function(){
+                                        return $state.go('error.500');
+                                    });
+                            }],
+                            {{options.entity}}Data: ['loadDeps',function(loadDeps) {
+                                return [];
+                            }]
+                            {{/options.lazy}}
+                            {{^options.lazy}}
+                            {{options.entity}}ItemsData: ['$state','{{options.entity}}Svc', function($state,{{options.entity}}Svc) {
+                                return {{options.entity}}Svc.getAll()
+                                    .then(function(response){
+                                        return response;
+                                    })
+                                    .catch(function(){
+                                        return $state.go('error.500');
+                                    });
+                            }],
+                            {{options.entity}}Data: function() {
+                                return {};
+                            }
+                            {{/options.lazy}}
+                        },
+                        {{/options.resolve}}
+                    url: "/{{options.entityLower}}",
+                    controller: "{{options.entity}}Ctrl as vm",
+                    templateUrl: "/app/src/modules/{{options.nameLower}}/views/{{options.entityLower}}/index.html",
+                    data: {
+                    roles: ['{{options.roles}}'],
+                        pageTitle: '{{options.entity}}'
+                    }
+                }
+            },
+            /**
+             * {{options.name}} {{options.entity}}
+             */
+            {
+                state: "{{options.nameLower}}.{{options.entityLower}}-edit",
+                    config: {
+                        {{#options.resolve}}
+                        resolve: {
+                            {{#options.lazy}}
+                            {{options.entity}}Data: ['loadDeps','$state','$stateParams','{{options.entity}}Svc', function(loadDeps,$state,$stateParams,{{options.entity}}Svc) {
+                                var id = $stateParams.id;
+                                if(!id) {
+                                    return $state.go('error.404');
+                                }
+                                return {{options.entity}}Svc.getById(id)
+                                    .then(function(response){
+                                        return response;
+                                    })
+                                    .catch(function(){
+                                        return $state.go('error.500');
+                                    });
+                            }],
+                            {{options.entity}}ItemsData: ['loadDeps',function(loadDeps) {
+                            return loadDeps;
+                            }]
+                            {{/options.lazy}}
+                            {{^options.lazy}}
+                            {{options.entity}}Data: ['$state','$stateParams','{{options.entity}}Svc', function($state,$stateParams,{{options.entity}}Svc) {
+                                var id = $stateParams.id;
+                                if(!id) {
+                                    return $state.go('error.404');
+                                }
+                                return {{options.entity}}Svc.getById(id)
+                                    .then(function(response){
+                                        return response;
+                                    })
+                                    .catch(function(){
+                                        return $state.go('error.500');
+                                    });
+                            }],
+                            {{options.entity}}ItemsData: function() {
+                            return [];
+                            }
+                            {{/options.lazy}}
+                        },
+                        {{/options.resolve}}
+                    url: "/{{options.entityLower}}/edit/{id}",
+                    controller: "{{options.entity}}Ctrl as vm",
+                    templateUrl: "/app/src/modules/{{options.nameLower}}/views/{{options.entityLower}}/add.html",
+                    data: {
+                    roles: ['{{options.roles}}'],
+                        pageTitle: 'Editar {{options.entity}}'
+                    },
+                    onEnter: ['$state','IdentitySvc',function($state, IdentitySvc){
+                        if(!IdentitySvc.isAllowedTo('MANTER_{{options.entityUpper}}')) {
+                            return $state.go('{{options.nameLower}}.{{options.entityLower}}');
+                        }
+                    }]
+                }
+            },
+            /**
+             * {{options.name}} {{options.entity}}
+             */
+            {
+                state: "{{options.nameLower}}.{{options.entityLower}}-add",
+                    config: {
+                        {{#options.resolve}}
+                        resolve: {
+                            {{#options.lazy}}
+                            {{options.entity}}Data: ['loadDeps',function(loadDeps) {
+                                return loadDeps;
+                            }],
+                            {{options.entity}}ItemsData: ['loadDeps',function(loadDeps) {
+                                return loadDeps;
+                            }]
+                            {{/options.lazy}}
+                            {{^options.lazy}}
+                            {{options.entity}}Data: function() {
+                                return {};
+                            },
+                            {{options.entity}}ItemsData: function() {
+                                return [];
+                            }
+                            {{/options.lazy}}
+                    },
+                        {{/options.resolve}}
+                    url: "//{{options.entityLower}}/add",
+                    controller: "{{options.entity}}Ctrl as vm",
+                    templateUrl: "/app/src/modules/{{options.nameLower}}/views/{{options.entityLower}}/add.html",
+                    data: {
+                    roles: ['{{options.roles}}'],
+                        pageTitle: 'Adicionar {{options.entity}}'
+                    },
+                    onEnter: ['$state','IdentitySvc',function($state, IdentitySvc){
+                        if(!IdentitySvc.isAllowedTo('MANTER_{{options.entityUpper}}')) {
+                            return $state.go('{{options.nameLower}}.{{options.entityLower}}');
+                        }
+                    }]
+                }
+            }
+        ];

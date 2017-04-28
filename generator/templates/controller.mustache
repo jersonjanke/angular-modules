@@ -1,0 +1,16 @@
+(function() {
+    'use strict';
+
+    angular.module('{{conf.mainName}}.{{options.name}}')
+    .controller('{{options.entity}}Ctrl', {{options.entity}}Ctrl);
+
+    {{options.entity}}Ctrl.$inject = ['$state'];
+        /*@ngInject*/
+    function {{options.entity}}Ctrl($state) {
+
+        var vm = this;
+
+    }
+
+    return {{options.entity}}Ctrl;
+})();

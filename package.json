@@ -32,6 +32,7 @@
     "jquery": "^1.12.4"
   },
   "devDependencies": {
+    "angular-bootstrap-npm": "^0.14.3",
     "autoprefixer": "^6.0.1",
     "babel-core": "^6.7.6",
     "babel-eslint": "^6.1.2",

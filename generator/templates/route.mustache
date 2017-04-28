@@ -1,0 +1,154 @@
+define(function() {
+    function ModuleRoutes() {
+        return [
+            {{#options.route}}
+                /**
+                * {{options.name}}
+                */
+                {
+                    state: "{{options.nameLower}}",
+                    config: {
+                    {{#options.route.resolve}}
+                        resolve: {
+                        {{#options.lazy}}
+                            loadDeps: ['$ocLazyLoad', function($ocLazyLoad) {
+                                return $ocLazyLoad.load('{{options.name}}Module');
+                            }]
+                        {{/options.lazy}}
+                        },
+                    {{/options.route.resolve}}
+                    url: "/{{options.nameLower}}"{{#options.entity}},
+                    controller: "{{options.entity}}Ctrl as vm"{{/options.entity}}{{#options.route.templateUrl}},
+                    templateUrl: "/{{{options.route.templateUrl}}}",{{/options.route.templateUrl}}{{#options.route.template}},
+                    template: "{{options.route.template}}",{{/options.route.template}}
+                    data: {
+                            roles: ['{{options.route.roles}}'],
+                            pageTitle: '{{options.entity}}'
+                        }
+                    }
+                }{{/options.route}}{{#options.crud}},
+                /**
+                * {{options.name}} {{options.entity}}
+                */
+                {
+                    state: "{{options.nameLower}}.{{options.route.entityLower}}",
+                    config: {
+                    {{#options.route.resolve}}
+                        resolve: {
+                        {{#options.lazy}}
+                            {{options.entity}}ItemsData: ['loadDeps','$state','{{options.entity}}Svc', function(loadDeps,$state,{{options.entity}}Svc) {
+                                return {{options.entity}}Svc.getAll()
+                                    .then(function(response){
+                                        return response;
+                                    })
+                                    .catch(function(){
+                                        return $state.go('error.500');
+                                    });
+                            }]
+                        {{/options.lazy}}
+                        {{^options.lazy}}
+                            {{options.entity}}ItemsData: ['$state','{{options.entity}}Svc', function($state,{{options.entity}}Svc) {
+                            return {{options.entity}}Svc.getAll()
+                                    .then(function(response){
+                                        return response;
+                                    })
+                                    .catch(function(){
+                                        return $state.go('error.500');
+                                    });
+                            }]
+                        {{/options.lazy}}
+                        },
+                    {{/options.route.resolve}}
+                    url: "/{{options.route.entityLower}}",
+                    controller: "{{options.entity}}Ctrl as vm",
+                    templateUrl: "/app/src/modules/{{options.nameLower}}/views/{{options.route.entityLower}}/index.html",
+                    data: {
+                            roles: ['{{options.route.roles}}'],
+                            pageTitle: '{{options.entity}}'
+                        }
+                    }
+                },
+                /**
+                * {{options.name}} {{options.entity}}
+                */
+                {
+                    state: "{{options.nameLower}}.{{options.route.entityLower}}-edit",
+                    config: {
+                    {{#options.route.resolve}}
+                        resolve: {
+                        {{#options.lazy}}
+                            {{options.entity}}Data: ['loadDeps','$state','$stateParams','{{options.entity}}Svc', function(loadDeps,$state,$stateParams,{{options.entity}}Svc) {
+                            var id = $stateParams.id;
+                            if(!id) {
+                                return $state.go('error.404');
+                            }
+                            return {{options.entity}}Svc.getById(id)
+                                    .then(function(response){
+                                        return response;
+                                    })
+                                    .catch(function(){
+                                        return $state.go('error.500');
+                                    });
+                            }]
+                        {{/options.lazy}}
+                        {{^options.lazy}}
+                            {{options.entity}}Data: ['$state','$stateParams','{{options.entity}}Svc', function($state,$stateParams,{{options.entity}}Svc) {
+                            var id = $stateParams.id;
+                            if(!id) {
+                                return $state.go('error.404');
+                            }
+                            return {{options.entity}}Svc.getById(id)
+                                .then(function(response){
+                                    return response;
+                                })
+                                .catch(function(){
+                                    return $state.go('error.500');
+                                });
+                            }]
+                        {{/options.lazy}}
+                        },
+                        {{/options.route.resolve}}
+                        url: "/{{options.route.entityLower}}/edit/{id}",
+                        controller: "{{options.entity}}Ctrl as vm",
+                        templateUrl: "/app/src/modules/{{options.nameLower}}/views/{{options.route.entityLower}}/add.html",
+                        data: {
+                            roles: ['{{options.route.roles}}'],
+                            pageTitle: 'Adicionar {{options.entity}}'
+                        }
+                    }
+                },
+                /**
+                * {{options.name}} {{options.entity}}
+                */
+                {
+                    state: "{{options.nameLower}}.{{options.route.entityLower}}-add",
+                    config: {
+                        {{#options.route.resolve}}
+                            resolve: {
+                            {{#options.lazy}}
+                                {{options.entity}}Data: ['loadDeps',function(loadDeps) {
+                                    return loadDeps;
+                                }]
+                            {{/options.lazy}}
+                            {{^options.lazy}}
+                                {{options.entity}}Data: ['loadDeps',function(loadDeps) {
+                                    return loadDeps;
+                                }]
+                            {{/options.lazy}}
+                            },
+                        {{/options.route.resolve}}
+                        url: "/{{options.route.entityLower}}/add",
+                        controller: "{{options.entity}}Ctrl as vm",
+                        templateUrl: "/app/src/modules/{{options.nameLower}}/views/{{options.route.entityLower}}/add.html",
+                        data: {
+                            roles: ['{{options.route.roles}}'],
+                            pageTitle: 'Adicionar {{options.entity}}'
+                        }
+                    }
+                }
+            {{/options.crud}}
+        ];
+    }
+
+    return ModuleRoutes;
+});

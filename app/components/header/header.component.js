@@ -5,7 +5,7 @@ let headerComponent = {
     controller: () => {},
     controllerAs: 'vm',
     bindings: {
-    name: '='
+    title: '@'
   }
 }
 

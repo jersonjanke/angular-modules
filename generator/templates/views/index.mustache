@@ -1,0 +1,35 @@
+{{=<% %>=}}
+<div class="block-details">
+    <div class="title">
+        <div class="caption">
+            <div class="caption-subject text-brand-primary">{{'<%options.entity%>' | i18n}}</div>
+        </div>
+
+        <div class="actions" ng-if="app.isAllowedTo('MANTER_<%options.entityUpper%>')">
+            <a ui-sref="<%options.nameLower%>.<%options.entityLower%>-add" class="btn btn-circle btn-sm btn-primary">
+                <i class="fa fa-plus"></i> {{'Adicionar' | i18n}} </a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <ul class="list-unstyled"
+            ng-if="vm.items.length>0">
+            <li ng-repeat="item in vm.items track by $index">
+                <hr ng-if="$index > 0"/>
+                <div class="block-details bordered">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <%#options.field%>
+                            <p>
+                                <strong><%name%>: </strong> {{item.<%name%> | i18n}}
+                            </p>
+                            <%/options.field%>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="alert alert-info no-margin" ng-if="!vm.items.length">
+            {{'Nenhum item encontrado.' | i18n}}
+        </div>
+    </div>
+</div>

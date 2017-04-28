@@ -1,0 +1,134 @@
+{{=<% %>=}}
+<div class="block-details">
+    <div class="title">
+        <div class="caption text-brand-primary">
+            <span class="caption-subject">{{'<%options.entity%>' | i18n}}</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <form novalidate angular-validator name="vm.<%options.entity%>Form"
+              angular-validator-submit="vm.save(vm.<%options.entity%>Form)">
+            <div class="row">
+                <%#options.field%>
+                <%#autocomplete%>
+                <div class="col-md-6">
+                    <div class="form-group <%required%>">
+                        <label for="<%options.entity%>_<%name%>" class="control-label">{{'<%name%>' | i18n}}</label>
+                        <input type="text" <%required%>
+                        id="<%options.entity%>_<%name%>"
+                        ng-model="vm.model.<%name%>"
+                        name="<%name%>"
+                        autocomplete="false"
+                        placeholder="Informe <%name%>"
+                        class="form-control"
+                        typeahead-on-select="vm.model.<%name%> = $item"
+                        typeahead-min-length="3"
+                        typeahead-wait-ms="300"
+                        typeahead="item as item.name for item in vm.<%name%>Items | filter:{name:$viewValue}">
+                    </div>
+                </div>
+                <%/autocomplete%>
+                <%#text%>
+                <div class="col-md-6">
+                    <div class="form-group <%required%>">
+                        <label for="<%options.entity%>_<%name%>" class="control-label">{{'<%name%>' | i18n}}</label>
+                        <input type="text" <%required%>
+                        id="<%options.entity%>_<%name%>"
+                        ng-model="vm.model.<%name%>"
+                        name="<%name%>"
+                        class="form-control">
+                    </div>
+                </div>
+                <%/text%>
+                <%#date%>
+                <div class="col-md-3">
+                    <div class="form-group <%required%>">
+                        <label for="<%options.entity%>_<%name%>" class="control-label">{{'<%name%>' | i18n}}</label>
+                        <input type="text" <%required%>
+                        name="<%name%>"
+                        ui-mask="99/99/9999"
+                        class="form-control date-picker"
+                        id="<%options.entity%>_<%name%>"
+                        ng-model="vm.model.<%name%>">
+                    </div>
+                </div>
+                <%/date%>
+                <%#select%>
+                <div class="col-md-6">
+                    <div class="form-group <%required%>">
+                        <label for="<%options.entity%>_<%name%>" class="control-label">{{'<%name%>' | i18n}}</label>
+                        <ui-select ng-model="vm.model.<%name%>"
+                                   <%required%>
+                                   id="<%options.entity%>_<%name%>">
+                            <ui-select-match>
+                                {{$select.selected}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="item as item.name in vm.<%name%>Items">
+                                <div ng-bind-html="item.name | i18n | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <%/select%>
+                <%/options.field%>
+            </div>
+            <div class="row" ng-if="app.formHasError(vm.<%options.entity%>Form)">
+                <div class="col-md-12">
+                    <div class="note note-danger">
+                        <p><strong>Ops!</strong> Parece que algo está errado.</p>
+                        <ul>
+                            <%#options.field%>
+                            <li ng-if="app.inputHasError('<%name%>',vm.<%options.entity%>Form)">
+                                <p ng-bind-html="'O campo <strong><%name%></strong> é inválido.' | i18n"></p>
+                            </li>
+                            <%/options.field%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary" type="submit" ng-disabled="vm.<%options.entity%>Form.$invalid">
+                        {{'Salvar' | i18n}}
+                    </button>
+
+                    <button class="btn btn-danger" type="button" data-toggle="modal"
+                            data-target="modalRemove{{options.entityLower}}"
+                            ng-if="vm.<%options.entity%>.id">
+                        {{'Excluir' | i18n}}
+                    </button>
+                    <a class="btn btn-link btn-sm" ui-sref="profile.professional"><i class="fa fa-times fa-fw"></i>
+                        <span class="hidden-xs">{{'Cancelar' | i18n}}</span></a>
+                </div>
+                <div class="col-md-12 margin-top-10" ng-if="vm.isLoading">
+                    <p>
+                        <i class="fa fa-fw fa-spin fa-spinner"></i> <strong>{{"Aguarde um instante" | i18n}}</strong>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modalRemove{{options.entityLower}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{'Excluir <%options.entity%>' | i18n}}</h4>
+            </div>
+            <div class="modal-body">
+                <p ng-bind-html="'Você tem certeza que deseja excluir esta <%options.entity%>?'| i18n"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{'Cancelar' | i18n}}</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="vm.remove()">
+                    {{'Sim, quero excluir' | i18n}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

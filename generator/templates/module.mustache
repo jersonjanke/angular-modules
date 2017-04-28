@@ -1,0 +1,25 @@
+(function() {
+    angular.module("{{conf.mainName}}.{{options.name}}", ['HCM.core'{{#options.deps}}, '{{.}}'{{/options.deps}}]);
+})();
+
+define([{{#options.hasRoutes}}'./config/module.routes'{{/options.hasRoutes}}],
+    function({{#options.hasRoutes}}moduleRoutes{{/options.hasRoutes}}) {
+        angular.module("{{conf.mainName}}.{{options.name}}")
+        {{#options.lazy}}
+        .config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+            $ocLazyLoadProvider.config({
+                modules: [{
+                    name: '{{options.name}}Module',
+                    files: ['/app/src/modules/{{options.nameLower}}/config/module.deps.js']
+                }]
+            });
+        }])
+        {{/options.lazy}}
+        {{#options.hasRoutes}}
+        .run(['RouterHelper', function(RouterHelper) {
+            RouterHelper.configureStates(moduleRoutes());
+        }])
+        {{/options.hasRoutes}}
+        ;
+});
+

@@ -1,0 +1,11 @@
+{{=<% %>=}}
+<div class="col-md-12">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-head__page-title"><h1>{{$state.current.data.pageTitle}}</h1></div>
+        <!-- END PAGE TITLE -->
+    </div>
+    <!-- END PAGE HEAD -->
+    <div class="margin-top-10" ng-include="'app/src/modules/<%options.nameLower%>/views/<%options.entityLower%>/_form.html'"></div>
+</div>

@@ -1,0 +1,189 @@
+(function() {
+'use strict';
+
+define(['app.module',
+        'modules/{{options.nameLower}}/module',
+        'modules/{{options.nameLower}}/service/{{options.entity}}Svc',
+        'modules/{{options.nameLower}}/controllers/{{options.entity}}Ctrl'], function() {
+
+        var $controller,
+        $httpBackend,
+        $rootScope,
+        $q,
+        $state,
+        $scope,
+        $filter,
+        controller,
+        deferred,
+        ApiSeniorHCM,
+        {{options.entity}}Svc,
+        listModel,
+        createModel,
+        updateModel;
+
+
+        describe('HCM.{{options.moduleName}} {{options.entity}}Ctrl', function() {
+                beforeEach(function() {
+                    module('HCM.translate');
+                    module('HCM.autocomplete');
+                    module('HCM.{{options.moduleName}}');
+                });
+
+
+                beforeEach(inject(function(_$controller_,
+                    _$rootScope_,
+                    _$filter_,
+                    _$q_,
+                    _$state_,
+                    _$httpBackend_,
+                    _{{options.entity}}Svc_,
+                    _ApiSeniorHCM_) {
+
+                    $controller = _$controller_;
+                    $httpBackend = _$httpBackend_;
+                    $rootScope = _$rootScope_.$new();
+                    $q = _$q_;
+                    $filter = _$filter_;
+                    $state = _$state_;
+                    ApiSeniorHCM = _ApiSeniorHCM_;
+                    {{options.entity}}Svc = _{{options.entity}}Svc_;
+                    $scope = _$rootScope_.$new();
+                    deferred = $q.defer();
+
+                    controller = _$controller_('{{options.entity}}Ctrl',
+                    {
+                        $state: $state,
+                        $filter: $filter,
+                        {{options.entity}}ItemsData: [],
+                        {{options.entity}}Data: {},
+                        {{options.entity}}Svc: {{options.entity}}Svc
+                    });
+
+                    spyOn({{options.entity}}Svc, 'getById').and.returnValue(deferred.promise);
+                    spyOn({{options.entity}}Svc, 'save').and.returnValue(deferred.promise);
+                    spyOn({{options.entity}}Svc, 'remove').and.returnValue(deferred.promise);
+                    spyOn({{options.entity}}Svc, 'getAll').and.returnValue(deferred.promise);
+
+                    $httpBackend.when("GET", function(url) {
+                        return url.indexOf(".html") !== -1;
+                    }).respond('');
+
+                    /**
+                    * Implemente o mock das chamadas da api
+                    * $httpBackend.whenGET(ApiSeniorHCM.get{{options.entity}}ByIdUrl('modelId'))
+                    *   .respond(200);
+                    *
+                    *  $httpBackend.whenGET(ApiSeniorHCM.getAll{{options.entity}}Url())
+                    *      .respond(200);
+                    *
+                    *  $httpBackend.whenPUT(ApiSeniorHCM.get{{options.entity}}UpdateUrl('modelId'))
+                    *      .respond(200);
+                    *
+                    *  $httpBackend.whenDELETE(ApiSeniorHCM.get{{options.entity}}DeleteUrl('modelId'))
+                    *      .respond(200);
+                    *
+                    *  $httpBackend.whenPOST(ApiSeniorHCM.get{{options.entity}}CreateUrl())
+                    *      .respond(200);
+                    */
+
+                    listModel = [{{{options.updateModel}}}];
+
+                    createModel = {{{options.createModel}}};
+
+                    updateModel = {{{options.updateModel}}};
+
+                }));
+
+
+            it('{{options.entity}}Ctrl deve estar definido e inicializar as propriedades', function() {
+                    expect(controller).toBeDefined();
+
+                    expect(controller.model).toEqual({});
+                    expect(controller.items).toEqual([]);
+                    expect(controller.isLoading).toEqual(false);
+                });
+
+            it('save() deve adicionar um {{options.entity}}', function() {
+
+                var ctrl = $controller('{{options.entity}}Ctrl', {
+                    $state: $state,
+                    $filter: $filter,
+                    {{options.entity}}Svc: {{options.entity}}Svc,
+                    {{options.entity}}Data: createModel
+                });
+
+                expect(ctrl.model).toEqual(createModel);
+
+                expect(ctrl.save({
+                    $valid: false
+                })).toEqual(false);
+
+                ctrl.save({
+                    $valid: true
+                });
+
+                deferred.resolve(createModel);
+                $scope.$apply();
+
+                expect({{options.entity}}Svc.save).toHaveBeenCalled();
+            });
+
+            it('save() deve atualizar um {{options.entity}}', function() {
+
+                var ctrl = $controller(' {{options.entity}}Ctrl', {
+                    $state: $state,
+                    $filter: $filter,
+                    {{options.entity}}Data: updateModel
+                });
+
+                expect(ctrl.model).toEqual(updateModel);
+
+                expect(ctrl.save({
+                    $valid: false
+                })).toEqual(false);
+
+                ctrl.save({
+                 $valid: true
+                });
+
+                deferred.resolve(updateModel);
+                $scope.$apply();
+
+                expect({{options.entity}}Svc.save).toHaveBeenCalled();
+            });
+
+            it('remove() deve remover um {{options.entity}}', function() {
+
+                var ctrl = $controller('{{options.entity}}Ctrl',
+                {
+                    $state: $state,
+                    $filter: $filter,
+                    {{options.entity}}Svc: {{options.entity}}Svc,
+                    {{options.entity}}Data: updateModel
+                });
+
+                expect(ctrl.model).toEqual(updateModel);
+
+                ctrl.remove();
+                deferred.resolve(updateModel);
+                $scope.$apply();
+
+                expect({{options.entity}}Svc.remove).toHaveBeenCalled();
+            });
+
+            it('{{options.entity}}Ctrl pode receber uma lista de {{options.entity}}', function() {
+
+                var ctrl = $controller('{{options.entity}}Ctrl',
+                {
+                    $state: $state,
+                    $filter: $filter,
+                    {{options.entity}}Svc: {{options.entity}}Svc,
+                    {{options.entity}}ItemsData: listModel
+                });
+
+                expect(ctrl.items).toEqual(listModel);
+            });
+
+        });
+    });
+})();
