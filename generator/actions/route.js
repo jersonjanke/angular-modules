@@ -17,11 +17,11 @@ function RouteAction(conf) {
         }
         var name = params.name || params.n,
             dir = globalConf.srcModuleDir + name,
-            configDir = dir + '/config';
+            configDir = dir;
 
 
         if (!params.entity) {
-            if (!fs.existsSync(configDir + '/module.routes.js')) {
+            if (!fs.existsSync(configDir + '/routes.js')) {
                 createNewRouteFile(params);
             }
             return;
@@ -33,7 +33,7 @@ function RouteAction(conf) {
         params.nameLower = params.name.toLowerCase();
         params.nameUpper = params.name.toUpperCase();
 
-        if (!fs.existsSync(configDir + '/module.routes.js')) {
+        if (!fs.existsSync(configDir + '/routes.js')) {
             createNewRouteFile(params);
         } else {
             createCrudToExistentFile(params);
@@ -51,18 +51,18 @@ function RouteAction(conf) {
         }
         var name = params.name || params.n,
             dir = globalConf.srcModuleDir + name,
-            configDir = dir + '/config';
+            configDir = dir;
 
         params.lazy = true;
 
         // process.stdout.write(("\n ## Criando arquivo de rotas para o módulo " + name).info);
-        // process.stdout.write(("\n * Criando arquivo de rotas " + configDir + '/module.routes.js...').info);
+        // process.stdout.write(("\n * Criando arquivo de rotas " + configDir + '/routes.js...').info);
 
         /**
          * Cria o arquivo do módulo
          */
 
-        fs.readFile(configDir + '/module.routes.js', 'utf-8', function(err, data) {
+        fs.readFile(configDir + '/routes.js', 'utf-8', function(err, data) {
             if (err) throw err;
 
             var currentRoutes = data.toString();
@@ -87,9 +87,9 @@ function RouteAction(conf) {
                 }
 
 
-                fs.writeFile(configDir + '/module.routes.js', newRoutes, function(err) {
+                fs.writeFile(configDir + '/routes.js', newRoutes, function(err) {
                     if (err) {
-                        process.stdout.write(("\n * Não foi possível criar o arquivo module.routes.js").error);
+                        process.stdout.write(("\n * Não foi possível criar o arquivo routes.js").error);
                     }
                 });
             });
@@ -131,7 +131,7 @@ function RouteAction(conf) {
 
         var name = params.name || params.n,
             dir = globalConf.srcModuleDir + name,
-            configDir = dir + '/config';
+            configDir = dir;
 
         if (!fs.existsSync(configDir) && !params.noroute) {
             fs.mkdirSync(configDir);
@@ -147,19 +147,19 @@ function RouteAction(conf) {
 
 
         //    process.stdout.write(("\n ## Criando arquivo de rotas para o módulo " + name).info);
-        //    process.stdout.write(("\n * Criando arquivo de rotas " + configDir + '/module.routes.js...').info);
+        //    process.stdout.write(("\n * Criando arquivo de rotas " + configDir + '/routes.js...').info);
 
         /**
          * Cria o arquivo do módulo
          */
-        if (!fs.existsSync(configDir + '/module.routes.js')) {
+        if (!fs.existsSync(configDir + '/routes.js')) {
             fs.readFile('./templates/route.mustache', 'utf-8', function(err, data) {
                 if (err) throw err;
                 var output = Mustache.render(data.toString(), {conf: conf, options: params});
 
-                fs.writeFile(configDir + '/module.routes.js', output, function(err) {
+                fs.writeFile(configDir + '/routes.js', output, function(err) {
                     if (err) {
-                        process.stdout.write(("\n * Não foi possível criar o arquivo module.routes.js").error);
+                        process.stdout.write(("\n * Não foi possível criar o arquivo routes.js").error);
                     }
                 });
             });

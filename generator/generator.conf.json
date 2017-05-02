@@ -1,4 +1,4 @@
 {
   "mainName": "HCM",
-  "srcModuleDir": "../app/modules"
+  "srcModuleDir": "../app/modules/"
 }

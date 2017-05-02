@@ -32,8 +32,8 @@ function ControllerAction(conf) {
         }
         var name = params.name || params.n || params.module,
             fs = require('fs.extra'),
-            dir = globalConf.srcModuleDir + name,
-            controllerDir = dir + '/controllers/';
+            dir = globalConf.srcModuleDir + name,           
+            controllerDir = dir + '/' + params.name +'/';
 
         if (!fs.existsSync(controllerDir)) {
             fs.mkdirSync(controllerDir);

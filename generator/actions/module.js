@@ -17,7 +17,7 @@ function ModuleAction(conf) {
     function createModuleDir(params) {
         var name = params.name,
             dir = globalConf.srcModuleDir + name,
-            configDir = dir + '/config';
+            configDir = dir;
         /**
          * Cria a pasta do módulo  caso não exista
          */
@@ -32,7 +32,7 @@ function ModuleAction(conf) {
     function createModuleConfigDir(params) {
         var name = params.name,
             dir = globalConf.srcModuleDir + name,
-            configDir = dir + '/config/';
+            configDir = dir;
         /**
          * Cria a pasta de config caso não exista
          * Cria o arquivo de rotas pelo RouteAction
@@ -50,7 +50,7 @@ function ModuleAction(conf) {
     function createModuleJs(params) {
         var name = params.name,
             dir = globalConf.srcModuleDir + name,
-            configDir = dir + '/config/';
+            configDir = dir;
         /**
          * Cria o arquivo do módulo
          */

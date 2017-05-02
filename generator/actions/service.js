@@ -32,7 +32,7 @@ function ServiceAction(conf) {
         var name = params.name || params.n || params.module,
             fs = require('fs.extra'),
             dir = globalConf.srcModuleDir + name,
-            serviceDir = dir + '/service/';
+            serviceDir = dir + '/' + params.name +'/';
 
         if (!fs.existsSync(dir)) {
             Errors.showErrorMessage("Você só pode criar um service para um módulo existente.");

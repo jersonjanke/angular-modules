@@ -66,11 +66,11 @@ function ScaffoldAction(conf) {
             RouteAction.create(params);
         }
         if (!params.notests) {
-            TestAction.create(params);
+            //TestAction.create(params);
         }
 
 
-        DepsAction.create(params);
+        //DepsAction.create(params);
     }
 
 }

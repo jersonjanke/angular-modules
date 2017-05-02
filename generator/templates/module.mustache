@@ -1,25 +1,13 @@
-(function() {
-    angular.module("{{conf.mainName}}.{{options.name}}", ['HCM.core'{{#options.deps}}, '{{.}}'{{/options.deps}}]);
-})();
+import angular from 'angular';
+import routes from './routes';
+import {{options.entity}}Ctrl from './{{options.entity}}/{{options.entity}}.controller';
+import {{options.entity}}Srv from './{{options.entity}}/{{options.entity}}.service';
 
-define([{{#options.hasRoutes}}'./config/module.routes'{{/options.hasRoutes}}],
-    function({{#options.hasRoutes}}moduleRoutes{{/options.hasRoutes}}) {
-        angular.module("{{conf.mainName}}.{{options.name}}")
-        {{#options.lazy}}
-        .config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
-            $ocLazyLoadProvider.config({
-                modules: [{
-                    name: '{{options.name}}Module',
-                    files: ['/app/src/modules/{{options.nameLower}}/config/module.deps.js']
-                }]
-            });
-        }])
-        {{/options.lazy}}
-        {{#options.hasRoutes}}
-        .run(['RouterHelper', function(RouterHelper) {
-            RouterHelper.configureStates(moduleRoutes());
-        }])
-        {{/options.hasRoutes}}
-        ;
-});
+const exports = {name: '{{options.name}}'};
 
+angular.module(exports.name, [])
+    .controller('{{options.entity}}Ctrl', {{options.entity}}Ctrl)
+    .service('{{options.entity}}Srv', {{options.entity}}Srv)    
+    .config(routes);
+
+export default exports;
